@@ -12,6 +12,7 @@
 		<spring.version>4.2.1.RELEASE</spring.version>
 		<jackson.version>1.9.10</jackson.version>
 		<jdk.version>1.8</jdk.version>
+		<aspectj.version>1.7.4</aspectj.version>
 	</properties>
 
 	<dependencies>
@@ -23,9 +24,20 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>5.0.1.Final</version>
 		</dependency>
-		
 
 
+		<!-- AspectJ dependencies -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${aspectj.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjtools</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
 
 		<!-- Spring 3 dependencies -->
 		<dependency>
@@ -53,10 +65,10 @@
 			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
-	<groupId>mysql</groupId>
-	<artifactId>mysql-connector-java</artifactId>
-	<version>5.1.36</version>
-</dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.36</version>
+		</dependency>
 
 	</dependencies>
 
