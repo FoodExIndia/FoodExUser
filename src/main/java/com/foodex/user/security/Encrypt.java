@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Decrypt {
+public @interface Encrypt {
 	String[]value() default {};
 }
