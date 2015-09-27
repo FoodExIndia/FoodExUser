@@ -1,16 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>  
 <!DOCTYPE hibernate-mapping PUBLIC  
  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
- "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
-  
- <hibernate-mapping>  
-  <class name="com.foodex.user.model.UsersEntity" table="user">  
-    <id name="id" type="int" column="id">  
-    <!--  <generator class="native"></generator>   -->
-    </id>  
-    <property name="username" column="username" type="string"/>  
-    <property name="password" column="password" type="string"/>  
-            
-  </class>  
-            
- </hibernate-mapping>  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.foodex.user.model.dataentities.UsersEntity" table="FE_LOGIN">
+		<id name="clientKey" column="CLIENT_KEY" type="int"></id>
+		<property name="emailId" column="USER_NAME_EMAIL" type="string" />
+		<property name="mobileNum" column="USER_NAME_PHONE" type="long" />
+		<property name="password" column="CLIENT_PASSWORD" type="string" />
+		<property name="recentOTP" column="RECENT_OTP" type="int" />
+		<property name="insertDate" column="INSERT_DATE" type="date" />
+		<property name="updateDate" column="UPDATE_DATE" type="date" />
+
+	</class>
+
+</hibernate-mapping>  
