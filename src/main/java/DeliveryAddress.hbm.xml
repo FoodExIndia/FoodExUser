@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.foodex.user.model.dataentities.DeliveryAddressEntity" table="FE_DELIVERY_ADDRESS">
+		<composite-id>
+			<key-property name="clientKey" column="CLIENT_KEY" type="string" />
+			<key-property name="addressKey" column="ADDRESS_KEY" type="int" />
+		</composite-id>
+		<property name="clientAddressLine1" column="CLIENT_ADDRESS_LINE_1" type="string" />
+		<property name="clientAddressLine2" column="CLIENT_ADDRESS_LINE_2" type="string" />
+		<property name="clientLandmark" column="CLIENT_LANDMARK" type="string" />
+		<property name="clientCity" column="CLIENT_CITY" type="string" />
+		<property name="clientArea" column="CLIENT_AREA" type="string" />
+		<property name="clientState" column="CLIENT_STATE" type="string" />
+		<property name="clientZip" column="CLIENT_ZIP" type="long" />
+	</class>
+
+</hibernate-mapping>  

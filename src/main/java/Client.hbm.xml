@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.foodex.user.model.dataentities.ClientEntity" table="FE_CLIENT">
+		<id name="clientKey" column="CLIENT_KEY" type="string"></id>
+		<property name="clientEmail" column="CLIENT_EMAIL" type="string" />
+		<property name="clientMobileNum" column="CLIENT_MOBILE_NUM" type="long" />
+		<property name="clientFirsteName" column="CLIENT_FIRST_NAME" type="string" />
+		<property name="clientLastName" column="CLIENT_LAST_NAME" type="string" />
+		<property name="clientAddressLine1" column="CLIENT_ADDRESS_LINE_1" type="string" />
+		<property name="clientAddressLine2" column="CLIENT_ADDRESS_LINE_2" type="string" />
+		<property name="clientLandmark" column="CLIENT_LANDMARK" type="string" />
+		<property name="clientCity" column="CLIENT_CITY" type="string" />
+		<property name="clientArea" column="CLIENT_AREA" type="string" />
+		<property name="clientState" column="CLIENT_STATE" type="string" />
+		<property name="clientZip" column="CLIENT_ZIP" type="long" />
+		<property name="clientDOB" column="DOB" type="date" />
+		<property name="clientGpsLocation" column="CLIENT_GPS_LOCATION" type="string" />
+		<property name="insertDate" column="INSERT_DATE" type="date" />
+		<property name="updateDate" column="UPDATE_DATE" type="date" />
+
+	</class>
+
+</hibernate-mapping>  
