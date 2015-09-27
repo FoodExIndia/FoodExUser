@@ -3,7 +3,7 @@ package com.foodex.user.model.dataentities;
 import java.sql.Date;
 
 public class UsersEntity {
-	private int clientKey;
+	private String clientKey;
 	private String emailId;
 	private long mobileNum;
 	private String password;
@@ -18,11 +18,11 @@ public class UsersEntity {
 				+ updateDate + "]";
 	}
 
-	public int getClientKey() {
+	public String getClientKey() {
 		return clientKey;
 	}
 
-	public void setClientKey(int clientKey) {
+	public void setClientKey(String clientKey) {
 		this.clientKey = clientKey;
 	}
 

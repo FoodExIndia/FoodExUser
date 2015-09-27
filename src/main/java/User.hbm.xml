@@ -5,7 +5,7 @@
 
 <hibernate-mapping>
 	<class name="com.foodex.user.model.dataentities.UsersEntity" table="FE_LOGIN">
-		<id name="clientKey" column="CLIENT_KEY" type="int"></id>
+		<id name="clientKey" column="CLIENT_KEY" type="string"></id>
 		<property name="emailId" column="USER_NAME_EMAIL" type="string" />
 		<property name="mobileNum" column="USER_NAME_PHONE" type="long" />
 		<property name="password" column="CLIENT_PASSWORD" type="string" />

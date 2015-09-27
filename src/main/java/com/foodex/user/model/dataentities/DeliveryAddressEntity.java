@@ -2,6 +2,7 @@ package com.foodex.user.model.dataentities;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class DeliveryAddressEntity implements Serializable{
 	private String clientKey;
 	private int addressKey;
