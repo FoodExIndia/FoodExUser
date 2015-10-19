@@ -10,10 +10,16 @@ public class ClientEntity {
 	private String clientLastName;
 	private String clientAddressLine1;
 	private String clientAddressLine2;
-	private String clientLandmark;
 	private String clientCity;
 	private String clientArea;
 	private String clientState;
+	private String clientLandmark;
+	public String getClientLandmark() {
+		return clientLandmark;
+	}
+	public void setClientLandmark(String clientLandmark) {
+		this.clientLandmark = clientLandmark;
+	}
 	private long clientZip;
 	private Date clientDOB;
 	private String clientGpsLocation;
@@ -27,7 +33,7 @@ public class ClientEntity {
 		return "ClientEntity [clientKey=" + clientKey + ", clientEmail=" + clientEmail + ", clientMobileNum="
 				+ clientMobileNum + ", clientFirsteName=" + clientFirsteName + ", clientLastName=" + clientLastName
 				+ ", clientAddressLine1=" + clientAddressLine1 + ", clientAddressLine2=" + clientAddressLine2
-				+ ", clientLandmark=" + clientLandmark + ", clientCity=" + clientCity + ", clientArea=" + clientArea
+				+ ", clientCity=" + clientCity + ", clientArea=" + clientArea
 				+ ", clientState=" + clientState + ", clientZip=" + clientZip + ", clientDOB=" + clientDOB
 				+ ", clientGpsLocation=" + clientGpsLocation + ", insertDate=" + insertDate + ", updateDate="
 				+ updateDate + "]";
@@ -70,12 +76,6 @@ public class ClientEntity {
 	}
 	public void setClientAddressLine2(String clientAddressLine2) {
 		this.clientAddressLine2 = clientAddressLine2;
-	}
-	public String getClientLandmark() {
-		return clientLandmark;
-	}
-	public void setClientLandmark(String clientLandmark) {
-		this.clientLandmark = clientLandmark;
 	}
 	public String getClientCity() {
 		return clientCity;

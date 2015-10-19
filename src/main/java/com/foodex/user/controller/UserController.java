@@ -3,15 +3,15 @@ package com.foodex.user.controller;
 import java.sql.Date;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.foodex.user.common.AreaEnum;
+import com.foodex.user.common.HibernateUtil;
+import com.foodex.user.common.HttpHelper;
 import com.foodex.user.common.UniqueIdGenerator;
 import com.foodex.user.model.dataentities.ClientEntity;
 import com.foodex.user.model.dataentities.UsersEntity;
@@ -23,11 +23,7 @@ import com.google.gson.Gson;
 public class UserController {
 	@RequestMapping(produces="text/plain",value = "/login", method = RequestMethod.GET)
 	public String loginValidation(@RequestParam String loginId, @RequestParam String password) {
-		System.out.println(loginId + "  " + password);
-		Configuration cfg = new Configuration();
-		cfg.configure("hibernate.cfg.xml");
-		SessionFactory factory = cfg.buildSessionFactory();
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
 		Query query = session.createQuery("from com.foodex.user.model.dataentities.UsersEntity where emailId= :emailId");
 		query.setString("emailId", loginId);
@@ -46,27 +42,24 @@ public class UserController {
 	public String signUp(@RequestParam String signUpJson) {
 		Gson gson = new Gson();
 		SignUpRequest signUpRequest = gson.fromJson(signUpJson, SignUpRequest.class);
-		Configuration cfg = new Configuration();
-		cfg.configure("hibernate.cfg.xml");
-		SessionFactory factory = cfg.buildSessionFactory();
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction t = session.beginTransaction();
-		String clientKey = UniqueIdGenerator.newClientId(session);
+		AreaEnum areaCode = AreaEnum.valueOf("CHENNAI" + "_" + "MEDAVAKKAM");
+		String clientKey = UniqueIdGenerator.newClientId(areaCode.getValue());
 		ClientEntity client = new ClientEntity();
 		client.setClientKey(clientKey);
 		client.setClientFirsteName(signUpRequest.getFirstName());
 		client.setClientLastName(signUpRequest.getLastname());
 		client.setClientEmail(signUpRequest.getEmailId());
 		client.setClientMobileNum(Long.parseLong(signUpRequest.getPhoneNumber()));
-		client.setClientAddressLine1("al1");
-		client.setClientAddressLine2("al2");
+		client.setClientAddressLine1(signUpRequest.getAddressLine1());
+		client.setClientAddressLine2(signUpRequest.getAddressLine2());
 		client.setClientArea("area");
-		client.setClientCity("city");
+		client.setClientCity(signUpRequest.getCity());
 		client.setClientDOB(new Date(System.currentTimeMillis()));
 		client.setClientGpsLocation("gps");
-		client.setClientLandmark("landmark");
-		client.setClientState("state");
-		client.setClientZip(600100);
+		client.setClientState(signUpRequest.getState());
+		client.setClientZip(Long.parseLong(signUpRequest.getPincode()));
 		client.setInsertDate(new Date(System.currentTimeMillis()));
 		UsersEntity user = new UsersEntity();
 		user.setClientKey(clientKey);
@@ -74,12 +67,18 @@ public class UserController {
 		user.setMobileNum(Long.parseLong(signUpRequest.getPhoneNumber()));
 		user.setPassword(signUpRequest.getPassword());
 		user.setInsertDate(new Date(System.currentTimeMillis()));
-		try{
+
+		try{   
 			session.save(client);
 			session.save(user); 
 			t.commit();
+			if(sendOTP(user.getMobileNum()) == "failure")
+			{
+				throw new Exception();
+			}
 		}
 		catch(Exception e){
+			e.printStackTrace();
 			return "failure" + e.getStackTrace().toString();
 		}
 		System.out.println(signUpRequest.toString());
@@ -90,6 +89,69 @@ public class UserController {
 	@ResponseBody
 	public String whatever() {
 		return "Hello";
+	}
+
+	@RequestMapping(produces="text/plain",value = "/otp", method = RequestMethod.GET)
+	public String otpValidation(@RequestParam String loginId, @RequestParam int otp) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		Query query = session.createQuery("from com.foodex.user.model.dataentities.UsersEntity where mobileNum= :mobileNum");
+		query.setString("mobileNum", loginId);
+		UsersEntity user = (UsersEntity) query.uniqueResult();
+		if(user == null)
+		{
+			return "failure";
+		}
+		t.commit();
+		session.close();
+		System.out.println(user.getRecentOTP());
+		return user.getRecentOTP() == otp ? "success" : "failure";
+	}
+
+	@RequestMapping(produces="text/plain",value = "/newpassword", method = RequestMethod.GET)
+	public String newPassword(@RequestParam long loginId, @RequestParam String password) {
+		try{
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Transaction t = session.beginTransaction();
+			Query query = session.createQuery("update com.foodex.user.model.dataentities.UsersEntity set password= :password where mobileNum= :mobileNum");
+			query.setLong("mobileNum", loginId);
+			query.setString("password", password);
+			t.commit();
+			session.close();
+			return "success";
+		}
+		catch(Exception ex)
+		{
+			return "failure";	
+		}
+	}
+
+	@RequestMapping(produces="text/plain",value = "/sendotp", method = RequestMethod.GET)
+	public String forgotPassword(@RequestParam long loginId) {
+		return sendOTP(loginId);
+	}
+
+	private String sendOTP(long mobileNumber)
+	{
+		int otp = UniqueIdGenerator.generateOTP();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction t = session.beginTransaction();
+		Query query = session.createQuery("update com.foodex.user.model.dataentities.UsersEntity set recentOTP= :recentOTP where mobileNum= :mobileNum");
+		query.setLong("mobileNum", mobileNumber);
+		query.setInteger("recentOTP", otp);
+		try
+		{
+			t.commit();
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return "failure";
+		}
+		String smsAPI = "http://api.mvaayoo.com/mvaayooapi/MessageCompose?user=foodexhome@gmail.com:foodex123&senderID=TEST%20SMS&receipientno="+mobileNumber+"&msgtxt=Hi,%20Welcome%20to%20FOODEX.%20Please%20enter%20this%20OTP%20"+otp+".&state=4";
+		HttpHelper httpHelper = new HttpHelper();
+		httpHelper.get(smsAPI);
+		return "success";
 	}
 
 }
