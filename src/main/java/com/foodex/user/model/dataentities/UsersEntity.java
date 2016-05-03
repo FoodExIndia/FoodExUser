@@ -10,12 +10,21 @@ public class UsersEntity {
 	private int recentOTP;
 	private Date insertDate;
 	private Date updateDate;
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
 		return "UsersEntity [clientKey=" + clientKey + ", emailId=" + emailId + ", mobileNum=" + mobileNum
 				+ ", password=" + password + ", recentOTP=" + recentOTP + ", insertDate=" + insertDate + ", updateDate="
-				+ updateDate + "]";
+				+ updateDate + ", status=" + status + "]";
 	}
 
 	public String getClientKey() {
