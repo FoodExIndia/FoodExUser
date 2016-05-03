@@ -4,7 +4,8 @@
  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.foodex.user.model.dataentities.UsersEntity" table="FE_LOGIN">
+	<class name="com.foodex.user.model.dataentities.UsersEntity"
+		table="FE_LOGIN">
 		<id name="clientKey" column="CLIENT_KEY" type="string"></id>
 		<property name="emailId" column="USER_NAME_EMAIL" type="string" />
 		<property name="mobileNum" column="USER_NAME_PHONE" type="long" />
@@ -12,7 +13,7 @@
 		<property name="recentOTP" column="RECENT_OTP" type="int" />
 		<property name="insertDate" column="INSERT_DATE" type="date" />
 		<property name="updateDate" column="UPDATE_DATE" type="date" />
-
+		<property name="status" column="Status" type="string" />
 	</class>
 
 </hibernate-mapping>  

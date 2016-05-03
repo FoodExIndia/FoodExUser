@@ -17,6 +17,8 @@
 		<mapping resource="DeliveryAddress.hbm.xml" />
 		<mapping class="com.foodex.user.model.dataentities.OrderEntity" />
 		<mapping class="com.foodex.user.model.dataentities.AreaEntity" />
+		<mapping class="com.foodex.user.model.dataentities.MenuEntity" />
+		<mapping class="com.foodex.user.model.dataentities.FoodItemEntity" />
 	</session-factory>
 
 </hibernate-configuration>

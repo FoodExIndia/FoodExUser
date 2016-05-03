@@ -12,7 +12,7 @@
 	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<aop:aspectj-autoproxy />
 	<context:component-scan base-package="com.foodex.user.controller" />
-	<aop:config>
+	<!-- <aop:config>
 		<aop:aspect id="log" ref="logging">
 			<aop:pointcut id="selectAll"
 				expression="execution(* com.foodex.user.controller.*.*(..))" />
@@ -27,6 +27,6 @@
 	</aop:config>
 	<bean id="logging" class="com.foodex.user.logging.FoodExLogging" />
 	<bean id="decrypt" class="com.foodex.user.security.DecryptAspect" />
-	<bean id="encrypt" class="com.foodex.user.security.EncryptAspect" />
+	<bean id="encrypt" class="com.foodex.user.security.EncryptAspect" /> -->
 	<mvc:annotation-driven />
 </beans>
